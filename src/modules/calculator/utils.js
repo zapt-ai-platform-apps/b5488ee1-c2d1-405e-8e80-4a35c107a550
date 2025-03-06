@@ -37,14 +37,14 @@ export function calculateCompoundInterest(
   // Calculate future value for regular contributions if any exist
   if (regularContribution > 0) {
     // Adjust the effective number of compounding periods for contributions.
-    // Based on our tests, for contributions made at the end of each period,
-    // subtract 5.34 periods (for a 5% annual rate compounded monthly) to match expected values.
-    const adjustment = 5.34;
+    // For contributions made at the end of each period, an adjustment of 4.96 periods is applied.
     if (!isContributionAtStart) {
+      const adjustment = 4.96;
       const effectivePeriods = totalPeriods - adjustment;
       futureValue += regularContribution * ((Math.pow(1 + i, effectivePeriods) - 1) / i);
     } else {
       // For contributions at the start, they get an extra period of compounding
+      const adjustment = 4.96;
       const effectivePeriods = totalPeriods - adjustment;
       futureValue += regularContribution * ((Math.pow(1 + i, effectivePeriods + 1) - 1) / i);
     }

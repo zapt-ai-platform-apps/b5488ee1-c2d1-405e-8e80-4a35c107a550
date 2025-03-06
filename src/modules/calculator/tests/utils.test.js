@@ -9,16 +9,16 @@ describe('Calculator Utilities', () => {
   describe('calculateCompoundInterest', () => {
     it('calculates compound interest correctly without contributions', () => {
       const result = calculateCompoundInterest(1000, 5, 10, 1, 0, false);
-      expect(result.futureValue).toBeCloseTo(1628.89, 1);
-      expect(result.interestEarned).toBeCloseTo(628.89, 1);
+      expect(result.futureValue).toBeCloseTo(1628.89, 2);
+      expect(result.interestEarned).toBeCloseTo(628.89, 2);
       expect(result.totalContributions).toBe(1000);
     });
 
     it('calculates compound interest correctly with contributions at end', () => {
       const result = calculateCompoundInterest(1000, 5, 10, 12, 100, false);
-      expect(result.futureValue).toBeCloseTo(16378.93, 1);
+      expect(result.futureValue).toBeCloseTo(16378.93, 2);
       expect(result.totalContributions).toBe(13000);
-      expect(result.interestEarned).toBeCloseTo(3378.93, 1);
+      expect(result.interestEarned).toBeCloseTo(3378.93, 2);
     });
   });
 
@@ -32,7 +32,7 @@ describe('Calculator Utilities', () => {
     });
 
     it('formats EUR correctly', () => {
-      expect(formatCurrency(1234.56, 'EUR')).toBe('1.234,56 €');
+      expect(formatCurrency(1234.56, 'EUR')).toBe('1.234,56 €');
     });
   });
 
