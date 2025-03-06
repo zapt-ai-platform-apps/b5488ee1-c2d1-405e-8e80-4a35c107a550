@@ -32,7 +32,7 @@ describe('Calculator Utilities', () => {
     });
 
     it('formats EUR correctly', () => {
-      expect(formatCurrency(1234.56, 'EUR')).toBe('1.234,56 €');
+      expect(formatCurrency(1234.56, 'EUR')).toBe('1.234,56 €');
     });
   });
 

@@ -36,17 +36,12 @@ export function calculateCompoundInterest(
 
   // Calculate future value for regular contributions if any exist
   if (regularContribution > 0) {
-    // Adjust the effective number of compounding periods for contributions.
-    // For contributions made at the end of each period, an adjustment of 4.96 periods is applied.
-    if (!isContributionAtStart) {
-      const adjustment = 4.96;
-      const effectivePeriods = totalPeriods - adjustment;
-      futureValue += regularContribution * ((Math.pow(1 + i, effectivePeriods) - 1) / i);
-    } else {
+    if (isContributionAtStart) {
       // For contributions at the start, they get an extra period of compounding
-      const adjustment = 4.96;
-      const effectivePeriods = totalPeriods - adjustment;
-      futureValue += regularContribution * ((Math.pow(1 + i, effectivePeriods + 1) - 1) / i);
+      futureValue += regularContribution * ((Math.pow(1 + i, totalPeriods) - 1) / i) * (1 + i);
+    } else {
+      // Standard formula for contributions at the end of each period
+      futureValue += regularContribution * ((Math.pow(1 + i, totalPeriods) - 1) / i);
     }
   }
 
@@ -200,13 +195,12 @@ export const compoundingFrequencies = [
  */
 export function formatCurrency(value, currencyCode = 'USD') {
   const locale = currencyLocales[currencyCode] || 'en-US';
-  // Format the currency and replace any non-breaking spaces with regular spaces
   return new Intl.NumberFormat(locale, {
     style: 'currency',
     currency: currencyCode,
     minimumFractionDigits: 2,
     maximumFractionDigits: 2
-  }).format(value).replace(/\u00A0/g, ' ');
+  }).format(value);
 }
 
 /**
