@@ -18,6 +18,7 @@ import {
   formatCurrency,
   formatPercentage
 } from '../utils';
+import { DEFAULT_CURRENCY } from '../constants/currencies';
 import CalculatorForm from './CalculatorForm';
 import CalculatorResults from './CalculatorResults';
 
@@ -40,7 +41,8 @@ const Calculator = () => {
     compoundingFrequency: 12, // monthly
     regularContribution: 100,
     isContributionAtStart: false,
-    inflationRate: 2.5
+    inflationRate: 2.5,
+    currency: DEFAULT_CURRENCY
   });
 
   const [results, setResults] = useState(null);
@@ -189,10 +191,28 @@ const Calculator = () => {
                 options={{
                   responsive: true,
                   scales: {
+                    x: {
+                      title: {
+                        display: true,
+                        text: 'Years',
+                        font: {
+                          size: 14,
+                          weight: 'bold'
+                        }
+                      }
+                    },
                     y: {
                       beginAtZero: true,
+                      title: {
+                        display: true,
+                        text: `Value (${calculatorInputs.currency})`,
+                        font: {
+                          size: 14,
+                          weight: 'bold'
+                        }
+                      },
                       ticks: {
-                        callback: (value) => formatCurrency(value)
+                        callback: (value) => formatCurrency(value, calculatorInputs.currency)
                       }
                     }
                   },
@@ -200,7 +220,7 @@ const Calculator = () => {
                     tooltip: {
                       callbacks: {
                         label: (context) => {
-                          return `${context.dataset.label}: ${formatCurrency(context.parsed.y)}`;
+                          return `${context.dataset.label}: ${formatCurrency(context.parsed.y, calculatorInputs.currency)}`;
                         }
                       }
                     }
@@ -233,12 +253,12 @@ const Calculator = () => {
                 {scenarios.map((scenario) => (
                   <tr key={scenario.id} className="border-t border-gray-200">
                     <td className="py-3 px-4">{scenario.name}</td>
-                    <td className="py-3 px-4">{formatCurrency(scenario.inputs.principal)}</td>
+                    <td className="py-3 px-4">{formatCurrency(scenario.inputs.principal, scenario.inputs.currency)}</td>
                     <td className="py-3 px-4">{formatPercentage(scenario.inputs.rate)}</td>
                     <td className="py-3 px-4">{scenario.inputs.time} years</td>
-                    <td className="py-3 px-4">{formatCurrency(scenario.inputs.regularContribution)}/month</td>
-                    <td className="py-3 px-4 font-semibold">{formatCurrency(scenario.results.futureValue)}</td>
-                    <td className="py-3 px-4">{formatCurrency(scenario.results.interestEarned)}</td>
+                    <td className="py-3 px-4">{formatCurrency(scenario.inputs.regularContribution, scenario.inputs.currency)}/month</td>
+                    <td className="py-3 px-4 font-semibold">{formatCurrency(scenario.results.futureValue, scenario.inputs.currency)}</td>
+                    <td className="py-3 px-4">{formatCurrency(scenario.results.interestEarned, scenario.inputs.currency)}</td>
                     <td className="py-3 px-4">
                       <button 
                         onClick={() => removeScenario(scenario.id)}

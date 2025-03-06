@@ -1,3 +1,5 @@
+import { currencyLocales } from './constants/currencies';
+
 /**
  * Calculate future value using compound interest formula
  * 
@@ -98,8 +100,6 @@ export function generateChartData(
   const totalData = [];
   const inflationAdjustedData = [];
   
-  let runningPrincipal = principal;
-  
   for (const year of years) {
     if (year === 0) {
       principalData.push(principal);
@@ -119,8 +119,10 @@ export function generateChartData(
       isContributionAtStart
     );
     
-    // Update running principal (original principal + all contributions to date)
-    runningPrincipal = principal + (regularContribution * compoundingFrequency * year);
+    // Correctly calculate running principal (original principal + all contributions to date)
+    // Each contribution happens at the frequency specified for each year
+    const contributionsToDate = regularContribution * compoundingFrequency * year;
+    const runningPrincipal = principal + contributionsToDate;
     
     // Store data points
     principalData.push(runningPrincipal);
@@ -185,11 +187,18 @@ export const compoundingFrequencies = [
   { label: 'Daily', value: 365 }
 ];
 
-// Format currency with 2 decimal places
-export function formatCurrency(value) {
-  return new Intl.NumberFormat('en-US', {
+/**
+ * Format currency with 2 decimal places
+ * @param {number} value - The amount to format
+ * @param {string} currencyCode - The currency code (USD, GBP, EUR)
+ * @returns {string} Formatted currency string
+ */
+export function formatCurrency(value, currencyCode = 'USD') {
+  const locale = currencyLocales[currencyCode] || 'en-US';
+  
+  return new Intl.NumberFormat(locale, {
     style: 'currency',
-    currency: 'USD',
+    currency: currencyCode,
     minimumFractionDigits: 2,
     maximumFractionDigits: 2
   }).format(value);

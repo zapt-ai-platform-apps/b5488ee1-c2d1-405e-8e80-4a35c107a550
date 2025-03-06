@@ -9,22 +9,22 @@ const CalculatorResults = ({ results, inputs }) => {
       <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
         <div className="bg-blue-50 p-4 rounded-lg">
           <h4 className="text-sm font-medium text-gray-500">Future Value</h4>
-          <p className="text-2xl font-bold text-blue-700">{formatCurrency(results.futureValue)}</p>
+          <p className="text-2xl font-bold text-blue-700">{formatCurrency(results.futureValue, inputs.currency)}</p>
         </div>
         
         <div className="bg-green-50 p-4 rounded-lg">
           <h4 className="text-sm font-medium text-gray-500">Total Interest Earned</h4>
-          <p className="text-2xl font-bold text-green-700">{formatCurrency(results.interestEarned)}</p>
+          <p className="text-2xl font-bold text-green-700">{formatCurrency(results.interestEarned, inputs.currency)}</p>
         </div>
         
         <div className="bg-purple-50 p-4 rounded-lg">
           <h4 className="text-sm font-medium text-gray-500">Total Contributions</h4>
-          <p className="text-2xl font-bold text-purple-700">{formatCurrency(results.totalContributions)}</p>
+          <p className="text-2xl font-bold text-purple-700">{formatCurrency(results.totalContributions, inputs.currency)}</p>
         </div>
         
         <div className="bg-yellow-50 p-4 rounded-lg">
           <h4 className="text-sm font-medium text-gray-500">Inflation-Adjusted Value</h4>
-          <p className="text-2xl font-bold text-yellow-700">{formatCurrency(results.inflationAdjusted)}</p>
+          <p className="text-2xl font-bold text-yellow-700">{formatCurrency(results.inflationAdjusted, inputs.currency)}</p>
         </div>
       </div>
       
@@ -32,7 +32,7 @@ const CalculatorResults = ({ results, inputs }) => {
         <h4 className="text-lg font-semibold text-blue-800 mb-2">Details</h4>
         <ul className="text-gray-700 space-y-2">
           <li>
-            <span className="font-medium">Initial Investment:</span> {formatCurrency(inputs.principal)}
+            <span className="font-medium">Initial Investment:</span> {formatCurrency(inputs.principal, inputs.currency)}
           </li>
           <li>
             <span className="font-medium">Interest Rate:</span> {formatPercentage(inputs.rate)}
@@ -51,7 +51,7 @@ const CalculatorResults = ({ results, inputs }) => {
           </li>
           {inputs.regularContribution > 0 && (
             <li>
-              <span className="font-medium">Regular Contribution:</span> {formatCurrency(inputs.regularContribution)} 
+              <span className="font-medium">Regular Contribution:</span> {formatCurrency(inputs.regularContribution, inputs.currency)} 
               {inputs.isContributionAtStart ? ' (beginning of period)' : ' (end of period)'}
             </li>
           )}
@@ -66,7 +66,7 @@ const CalculatorResults = ({ results, inputs }) => {
       <div className="mt-6">
         <h4 className="text-lg font-semibold text-blue-800 mb-2">Summary</h4>
         <p className="text-gray-700">
-          By investing {formatCurrency(inputs.principal)} with an annual interest rate of {formatPercentage(inputs.rate)} 
+          By investing {formatCurrency(inputs.principal, inputs.currency)} with an annual interest rate of {formatPercentage(inputs.rate)} 
           compounded {
             inputs.compoundingFrequency === 1 ? 'annually' :
             inputs.compoundingFrequency === 2 ? 'semi-annually' :
@@ -74,12 +74,12 @@ const CalculatorResults = ({ results, inputs }) => {
             inputs.compoundingFrequency === 12 ? 'monthly' :
             'daily'
           }, and
-          {inputs.regularContribution > 0 ? ` adding ${formatCurrency(inputs.regularContribution)} ${inputs.compoundingFrequency === 12 ? 'per month' : 'per period'},` : ''} 
-          you'll have {formatCurrency(results.futureValue)} after {inputs.time} years.
+          {inputs.regularContribution > 0 ? ` adding ${formatCurrency(inputs.regularContribution, inputs.currency)} ${inputs.compoundingFrequency === 12 ? 'per month' : 'per period'},` : ''} 
+          you'll have {formatCurrency(results.futureValue, inputs.currency)} after {inputs.time} years.
         </p>
         {inputs.inflationRate > 0 && (
           <p className="text-gray-700 mt-2">
-            When adjusted for inflation ({formatPercentage(inputs.inflationRate)} annually), your investment will be worth {formatCurrency(results.inflationAdjusted)} in today's money.
+            When adjusted for inflation ({formatPercentage(inputs.inflationRate)} annually), your investment will be worth {formatCurrency(results.inflationAdjusted, inputs.currency)} in today's money.
           </p>
         )}
       </div>
