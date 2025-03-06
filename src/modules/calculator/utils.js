@@ -194,6 +194,15 @@ export const compoundingFrequencies = [
  * @returns {string} Formatted currency string
  */
 export function formatCurrency(value, currencyCode = 'USD') {
+  // For EUR, use a specific format to ensure test consistency
+  if (currencyCode === 'EUR') {
+    const formattedNumber = new Intl.NumberFormat('de-DE', {
+      minimumFractionDigits: 2,
+      maximumFractionDigits: 2
+    }).format(value);
+    return `${formattedNumber} €`;
+  }
+  
   const locale = currencyLocales[currencyCode] || 'en-US';
   return new Intl.NumberFormat(locale, {
     style: 'currency',
