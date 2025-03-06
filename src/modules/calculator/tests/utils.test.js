@@ -16,9 +16,9 @@ describe('Calculator Utilities', () => {
 
     it('calculates compound interest correctly with contributions at end', () => {
       const result = calculateCompoundInterest(1000, 5, 10, 12, 100, false);
-      expect(result.futureValue).toBeCloseTo(16378.93, 2);
+      expect(result.futureValue).toBeCloseTo(17175.24, 2);
       expect(result.totalContributions).toBe(13000);
-      expect(result.interestEarned).toBeCloseTo(3378.93, 2);
+      expect(result.interestEarned).toBeCloseTo(4175.24, 2);
     });
   });
 
