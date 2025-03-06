@@ -9,7 +9,7 @@ export default function App() {
     <div className="min-h-screen bg-gray-50 text-gray-800">
       <header className="bg-blue-700 text-white py-6">
         <div className="container mx-auto px-4">
-          <h1 className="text-3xl font-bold mb-2">Compound Interest Calculator</h1>
+          <h1 className="text-3xl font-bold mb-2">Compound Interest</h1>
           <p className="text-blue-100">Learn and calculate the power of compound interest</p>
         </div>
       </header>
@@ -50,7 +50,7 @@ export default function App() {
         <div className="container mx-auto px-4">
           <div className="flex flex-col md:flex-row justify-between items-center">
             <div className="mb-4 md:mb-0">
-              <p>Compound Interest Calculator</p>
+              <p>Compound Interest</p>
               <p className="text-sm text-blue-300">A powerful tool for financial planning</p>
             </div>
             <div className="text-sm">

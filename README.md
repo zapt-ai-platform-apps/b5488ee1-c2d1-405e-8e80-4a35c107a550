@@ -1,4 +1,4 @@
-# Compound Interest Calculator
+# Compound Interest
 
 A comprehensive tool for understanding and calculating compound interest. This application includes both educational content about compound interest and a flexible calculator that allows users to see how their investments can grow over time.
 
