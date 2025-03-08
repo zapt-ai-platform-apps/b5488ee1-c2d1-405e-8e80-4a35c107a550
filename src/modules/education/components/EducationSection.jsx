@@ -1,7 +1,7 @@
 import React from 'react';
 import { introContent, applicationCards, keyPrinciples } from '../data';
 
-const EducationSection = () => {
+const EducationSection = ({ onNavigateToCalculator }) => {
   return (
     <div className="max-w-4xl mx-auto px-4 py-8">
       <div className="mb-10">
@@ -63,7 +63,14 @@ const EducationSection = () => {
           <li>Plan for retirement with greater confidence</li>
         </ul>
         <p className="text-gray-700">
-          Ready to see how your investments can grow? Try our <span className="font-semibold text-blue-700 cursor-pointer">compound interest calculator</span> now.
+          Ready to see how your investments can grow? Try our{' '}
+          <span 
+            onClick={onNavigateToCalculator} 
+            className="font-semibold text-blue-700 cursor-pointer hover:underline"
+          >
+            compound interest calculator
+          </span>{' '}
+          now.
         </p>
       </div>
     </div>

@@ -7,6 +7,10 @@ export default function App() {
   const [activeTab, setActiveTab] = useState('education');
   const [showDisclaimer, setShowDisclaimer] = useState(false);
 
+  const navigateToCalculator = () => {
+    setActiveTab('calculator');
+  };
+
   return (
     <div className="min-h-screen bg-gray-50 text-gray-800">
       <header className="bg-blue-700 text-white py-6">
@@ -44,7 +48,7 @@ export default function App() {
       </nav>
       
       <main className="container mx-auto py-8">
-        {activeTab === 'education' && <EducationSection />}
+        {activeTab === 'education' && <EducationSection onNavigateToCalculator={navigateToCalculator} />}
         {activeTab === 'calculator' && <Calculator />}
       </main>
       
