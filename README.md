@@ -23,6 +23,7 @@ A comprehensive tool for understanding and calculating compound interest. This a
 - Uses Chart.js for visualizations
 - Styled with Tailwind CSS
 - Progressive Web App (PWA) support for offline use
+- Analytics integration with Umami for visitor tracking
 
 ## SEO Optimization
 The application is optimized for search engines with:
@@ -38,3 +39,18 @@ The calculator is designed to be accessible to all users, with:
 - Screen reader compatibility
 - Clear visual hierarchy
 - Sufficient color contrast
+
+## Analytics
+This application uses Umami Analytics to track visitor statistics. To view analytics:
+
+1. Go to https://cloud.umami.is/login
+2. Log in with your credentials
+3. View the dashboard for your website
+
+The analytics dashboard provides information about:
+- Number of page views
+- Unique visitors
+- Visitor location
+- Device and browser information
+- Referral sources
+- Visitor behavior patterns

@@ -35,6 +35,7 @@ if (import.meta.env.VITE_PUBLIC_APP_ENV !== 'development') {
   script.src = 'https://cloud.umami.is/script.js';
   script.setAttribute('data-website-id', import.meta.env.VITE_PUBLIC_UMAMI_WEBSITE_ID);
   document.head.appendChild(script);
+  console.log('Umami analytics initialized with website ID:', import.meta.env.VITE_PUBLIC_UMAMI_WEBSITE_ID);
 }
 
 const root = ReactDOM.createRoot(document.getElementById('root'));
