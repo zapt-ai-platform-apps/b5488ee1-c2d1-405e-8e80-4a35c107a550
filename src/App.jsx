@@ -1,9 +1,11 @@
 import React, { useState } from 'react';
 import EducationSection from './modules/education/components/EducationSection';
 import Calculator from './modules/calculator/components/Calculator';
+import Disclaimer from './components/Disclaimer';
 
 export default function App() {
   const [activeTab, setActiveTab] = useState('education');
+  const [showDisclaimer, setShowDisclaimer] = useState(false);
 
   return (
     <div className="min-h-screen bg-gray-50 text-gray-800">
@@ -48,19 +50,28 @@ export default function App() {
       
       <footer className="bg-blue-800 text-white py-6">
         <div className="container mx-auto px-4">
-          <div className="flex flex-col md:flex-row justify-between items-center">
+          <div className="flex flex-col md:flex-row justify-between items-center mb-4">
             <div className="mb-4 md:mb-0">
-              <p>Compound Interest</p>
+              <p>CompoundInterest.uk</p>
               <p className="text-sm text-blue-300">A powerful tool for financial planning</p>
+              <p className="text-sm text-blue-300 mt-1">© 2025 CompoundInterest.uk. All rights reserved.</p>
             </div>
-            <div className="text-sm">
-              <a href="https://www.zapt.ai" target="_blank" rel="noopener noreferrer" className="text-blue-300 hover:text-white">
+            <div className="flex flex-col items-center md:items-end">
+              <a href="https://www.zapt.ai" target="_blank" rel="noopener noreferrer" className="text-blue-300 hover:text-white mb-2">
                 Made on ZAPT
               </a>
+              <button 
+                onClick={() => setShowDisclaimer(true)} 
+                className="text-blue-300 hover:text-white text-sm"
+              >
+                Disclaimer
+              </button>
             </div>
           </div>
         </div>
       </footer>
+      
+      {showDisclaimer && <Disclaimer onClose={() => setShowDisclaimer(false)} />}
     </div>
   );
 }

@@ -35,6 +35,12 @@ export const applicationCards = [
     title: "Wealth Building",
     description: "Compound interest is a powerful tool for building long-term wealth, as it allows earnings to generate additional earnings. The effect becomes more pronounced over longer time periods.",
     example: "Example: $5,000 invested with 10% annual returns will become $10,000 in about 7 years and $20,000 in about 14 years."
+  },
+  {
+    id: "tax",
+    title: "Tax-Advantaged Growth",
+    description: "Compound interest is even more powerful in tax-advantaged accounts like IRAs, 401(k)s, and ISAs. When taxes don't reduce yearly gains, the compounding effect accelerates significantly.",
+    example: "Example: £10,000 in a tax-free ISA growing at 6% annually will be worth about £32,071 after 20 years, compared to £24,883 in a taxed account (at 20% tax rate)."
   }
 ];
 

@@ -66,7 +66,7 @@ const CalculatorForm = ({
             className="w-full px-3 py-2 border border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring-blue-500 focus:border-blue-500 box-border"
             required
           />
-          <span className="absolute inset-y-0 right-0 flex items-center pr-3 text-gray-500">
+          <span className="absolute inset-y-0 right-0 flex items-center pr-8 text-gray-500">
             %
           </span>
         </div>
@@ -160,7 +160,7 @@ const CalculatorForm = ({
             step="0.1"
             className="w-full px-3 py-2 border border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring-blue-500 focus:border-blue-500 box-border"
           />
-          <span className="absolute inset-y-0 right-0 flex items-center pr-3 text-gray-500">
+          <span className="absolute inset-y-0 right-0 flex items-center pr-8 text-gray-500">
             %
           </span>
         </div>

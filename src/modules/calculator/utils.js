@@ -97,14 +97,21 @@ export function generateChartData(
   inflationRate = 0
 ) {
   const years = Array.from({ length: time + 1 }, (_, i) => i);
-  const principalData = [];
+  const principalOnlyData = []; // Initial principal without contributions
+  const principalPlusContributionsData = []; // Principal + all contributions to date
   const interestData = [];
   const totalData = [];
   const inflationAdjustedData = [];
   
+  // Convert all inputs to numbers to ensure proper calculation
+  principal = Number(principal);
+  regularContribution = Number(regularContribution);
+  compoundingFrequency = Number(compoundingFrequency);
+  
   for (const year of years) {
     if (year === 0) {
-      principalData.push(principal);
+      principalOnlyData.push(principal);
+      principalPlusContributionsData.push(principal);
       interestData.push(0);
       totalData.push(principal);
       inflationAdjustedData.push(principal);
@@ -121,11 +128,15 @@ export function generateChartData(
       isContributionAtStart
     );
     
-    // Calculate running principal (original principal + all contributions to date)
-    const contributionsToDate = regularContribution * compoundingFrequency * year;
-    const runningPrincipal = principal + contributionsToDate;
+    // Store the original principal for the principal-only line
+    principalOnlyData.push(principal);
     
-    principalData.push(runningPrincipal);
+    // Calculate total contributions to date
+    const contributionsToDate = regularContribution * compoundingFrequency * year;
+    
+    // Principal + all contributions to date
+    principalPlusContributionsData.push(principal + contributionsToDate);
+    
     interestData.push(result.interestEarned);
     totalData.push(result.futureValue);
     
@@ -147,7 +158,7 @@ export function generateChartData(
     datasets: [
       {
         label: 'Principal + Contributions',
-        data: principalData,
+        data: principalPlusContributionsData,
         backgroundColor: 'rgba(53, 162, 235, 0.5)',
         borderColor: 'rgb(53, 162, 235)',
         borderWidth: 2,

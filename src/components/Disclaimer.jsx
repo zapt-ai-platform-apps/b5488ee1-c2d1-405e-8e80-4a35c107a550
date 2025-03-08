@@ -1,0 +1,52 @@
+import React from 'react';
+
+const Disclaimer = ({ onClose }) => {
+  return (
+    <div className="fixed inset-0 bg-black bg-opacity-50 flex items-center justify-center z-50 p-4">
+      <div className="bg-white rounded-lg shadow-xl max-w-2xl w-full max-h-[90vh] overflow-y-auto">
+        <div className="p-6">
+          <div className="flex justify-between items-start mb-4">
+            <h3 className="text-xl font-semibold text-blue-800">Disclaimer</h3>
+            <button 
+              onClick={onClose}
+              className="text-gray-500 hover:text-gray-700 cursor-pointer"
+            >
+              <svg xmlns="http://www.w3.org/2000/svg" className="h-6 w-6" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M6 18L18 6M6 6l12 12" />
+              </svg>
+            </button>
+          </div>
+          
+          <div className="text-gray-700 space-y-4">
+            <p>
+              This Compound Interest application is powered by artificial intelligence and is intended for informational and educational purposes only. While we strive for accuracy and reliability, the AI-generated content may be incomplete, inaccurate, or outdated. Users must exercise their own judgment and verify all output before acting upon it.
+            </p>
+            
+            <p className="font-medium">By using this application, you acknowledge and agree that:</p>
+            
+            <ol className="list-decimal pl-6 space-y-2">
+              <li>The AI-generated content is not a substitute for professional advice, including but not limited to legal, financial, medical or business decisions.</li>
+              <li>You are solely responsible for reviewing, verifying, and validating any output before relying on it for decision-making.</li>
+              <li>The developers and providers of this application are not liable for any errors, omissions, or consequences arising from the use or reliance on AI-generated content.</li>
+            </ol>
+            
+            <p>
+              If you require precise or expert guidance, please consult a qualified professional.
+            </p>
+          </div>
+        </div>
+        
+        <div className="bg-gray-100 px-6 py-4 rounded-b-lg">
+          <button
+            onClick={onClose}
+            className="bg-blue-600 text-white py-2 px-4 rounded-md hover:bg-blue-700 transition-colors cursor-pointer"
+          >
+            I Understand
+          </button>
+        </div>
+      </div>
+    </div>
+  );
+};
+
+export default Disclaimer;
