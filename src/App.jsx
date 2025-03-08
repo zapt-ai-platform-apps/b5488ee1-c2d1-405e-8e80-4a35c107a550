@@ -11,8 +11,8 @@ export default function App() {
     <div className="min-h-screen bg-gray-50 text-gray-800">
       <header className="bg-blue-700 text-white py-6">
         <div className="container mx-auto px-4">
-          <h1 className="text-3xl font-bold mb-2">Compound Interest</h1>
-          <p className="text-blue-100">Learn and calculate the power of compound interest</p>
+          <h1 className="text-3xl font-bold mb-2">CompoundInterest.uk</h1>
+          <p className="text-blue-100">Calculate how your investments grow over time</p>
         </div>
       </header>
       
@@ -53,7 +53,7 @@ export default function App() {
           <div className="flex flex-col md:flex-row justify-between items-center mb-4">
             <div className="mb-4 md:mb-0">
               <p>CompoundInterest.uk</p>
-              <p className="text-sm text-blue-300">A powerful tool for financial planning</p>
+              <p className="text-sm text-blue-300">Free investment growth calculator</p>
               <p className="text-sm text-blue-300 mt-1">© 2025 CompoundInterest.uk. All rights reserved.</p>
             </div>
             <div className="flex flex-col items-center md:items-end">
@@ -62,7 +62,7 @@ export default function App() {
               </a>
               <button 
                 onClick={() => setShowDisclaimer(true)} 
-                className="text-blue-300 hover:text-white text-sm"
+                className="text-blue-300 hover:text-white text-sm cursor-pointer"
               >
                 Disclaimer
               </button>

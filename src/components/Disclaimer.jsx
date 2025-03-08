@@ -6,7 +6,7 @@ const Disclaimer = ({ onClose }) => {
       <div className="bg-white rounded-lg shadow-xl max-w-2xl w-full max-h-[90vh] overflow-y-auto">
         <div className="p-6">
           <div className="flex justify-between items-start mb-4">
-            <h3 className="text-xl font-semibold text-blue-800">Disclaimer</h3>
+            <h3 className="text-xl font-semibold text-blue-800">Financial Disclaimer</h3>
             <button 
               onClick={onClose}
               className="text-gray-500 hover:text-gray-700 cursor-pointer"
@@ -19,19 +19,20 @@ const Disclaimer = ({ onClose }) => {
           
           <div className="text-gray-700 space-y-4">
             <p>
-              This Compound Interest application is powered by artificial intelligence and is intended for informational and educational purposes only. While we strive for accuracy and reliability, the AI-generated content may be incomplete, inaccurate, or outdated. Users must exercise their own judgment and verify all output before acting upon it.
+              CompoundInterest.uk is designed for informational and educational purposes only. While we strive for accuracy and reliability, the calculations and content may be incomplete, inaccurate, or not applicable to your specific financial situation. Users must exercise their own judgment and verify all output before acting upon it.
             </p>
             
             <p className="font-medium">By using this application, you acknowledge and agree that:</p>
             
             <ol className="list-decimal pl-6 space-y-2">
-              <li>The AI-generated content is not a substitute for professional advice, including but not limited to legal, financial, medical or business decisions.</li>
+              <li>The calculator and educational content are not a substitute for professional financial advice. For personalized investment guidance, please consult a qualified financial advisor.</li>
+              <li>Investment returns are never guaranteed. Past performance is not indicative of future results, and actual returns may vary significantly from the calculations shown.</li>
               <li>You are solely responsible for reviewing, verifying, and validating any output before relying on it for decision-making.</li>
-              <li>The developers and providers of this application are not liable for any errors, omissions, or consequences arising from the use or reliance on AI-generated content.</li>
+              <li>The developers and providers of CompoundInterest.uk are not liable for any errors, omissions, or consequences arising from the use or reliance on the calculator results or educational content.</li>
             </ol>
             
             <p>
-              If you require precise or expert guidance, please consult a qualified professional.
+              For precise financial guidance specific to your situation, please consult a qualified financial professional.
             </p>
           </div>
         </div>

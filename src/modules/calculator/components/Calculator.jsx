@@ -42,7 +42,7 @@ const Calculator = () => {
     regularContribution: 100,
     isContributionAtStart: false,
     inflationRate: 2.5,
-    currency: DEFAULT_CURRENCY
+    currency: 'GBP' // Set default to GBP for UK audience
   });
 
   const [results, setResults] = useState(null);
@@ -142,7 +142,7 @@ const Calculator = () => {
 
   return (
     <div className="max-w-6xl mx-auto px-4 py-8">
-      <h2 className="text-2xl font-bold text-blue-800 mb-6">Compound Interest Calculator</h2>
+      <h2 className="text-2xl font-bold text-blue-800 mb-6">Investment Growth Calculator</h2>
       
       <div className="grid grid-cols-1 lg:grid-cols-3 gap-8">
         <div className="lg:col-span-1">
@@ -185,7 +185,7 @@ const Calculator = () => {
           
           {chartData && !isCalculating && (
             <div className="mt-8 bg-white p-4 rounded-lg shadow-md">
-              <h3 className="text-xl font-semibold text-blue-800 mb-4">Growth Over Time</h3>
+              <h3 className="text-xl font-semibold text-blue-800 mb-4">Investment Growth Over Time</h3>
               <Line 
                 data={chartData}
                 options={{
@@ -234,7 +234,7 @@ const Calculator = () => {
       
       {scenarios.length > 0 && (
         <div className="mt-12">
-          <h3 className="text-xl font-semibold text-blue-800 mb-4">Scenario Comparison</h3>
+          <h3 className="text-xl font-semibold text-blue-800 mb-4">Investment Scenario Comparison</h3>
           <div className="overflow-x-auto">
             <table className="min-w-full bg-white rounded-lg shadow-md">
               <thead className="bg-blue-100">
