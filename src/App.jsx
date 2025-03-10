@@ -1,15 +1,30 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import EducationSection from './modules/education/components/EducationSection';
 import Calculator from './modules/calculator/components/Calculator';
 import Disclaimer from './components/Disclaimer';
 
 export default function App() {
   const [activeTab, setActiveTab] = useState('education');
-  const [showDisclaimer, setShowDisclaimer] = useState(false);
+  const [hasAgreedToDisclaimer, setHasAgreedToDisclaimer] = useState(false);
+
+  // Show disclaimer when app first loads
+  useEffect(() => {
+    // We could check localStorage here if we wanted to persist the agreement
+    // For now, we'll just show it every time the app loads
+  }, []);
 
   const navigateToCalculator = () => {
     setActiveTab('calculator');
   };
+
+  const handleDisclaimerAgreement = () => {
+    setHasAgreedToDisclaimer(true);
+  };
+
+  // Show the disclaimer first if the user hasn't agreed to it
+  if (!hasAgreedToDisclaimer) {
+    return <Disclaimer onAgree={handleDisclaimerAgreement} initialAgreement={true} />;
+  }
 
   return (
     <div className="min-h-screen bg-gray-50 text-gray-800">
@@ -64,18 +79,10 @@ export default function App() {
               <a href="https://www.zapt.ai" target="_blank" rel="noopener noreferrer" className="text-blue-300 hover:text-white mb-2">
                 Made on ZAPT
               </a>
-              <button 
-                onClick={() => setShowDisclaimer(true)} 
-                className="text-blue-300 hover:text-white text-sm cursor-pointer"
-              >
-                Disclaimer
-              </button>
             </div>
           </div>
         </div>
       </footer>
-      
-      {showDisclaimer && <Disclaimer onClose={() => setShowDisclaimer(false)} />}
     </div>
   );
 }
