@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from 'react';
+import React, { useState, useEffect, useRef } from 'react';
 import { Line } from 'react-chartjs-2';
 import {
   Chart as ChartJS,
@@ -45,6 +45,7 @@ const Calculator = () => {
   const [yAxisConfig, setYAxisConfig] = useState({ min: 0, max: 50000, stepSize: 10000 });
   const [scenarios, setScenarios] = useState([]);
   const [isCalculating, setIsCalculating] = useState(false);
+  const chartRef = useRef(null);
 
   // Calculate results when inputs change
   useEffect(() => {
@@ -52,12 +53,23 @@ const Calculator = () => {
     setIsCalculating(true);
 
     try {
+      // Ensure all inputs are numbers
+      const numericInputs = {
+        ...calculatorInputs,
+        principal: Number(calculatorInputs.principal),
+        rate: Number(calculatorInputs.rate),
+        time: Number(calculatorInputs.time),
+        compoundingFrequency: Number(calculatorInputs.compoundingFrequency),
+        regularContribution: Number(calculatorInputs.regularContribution),
+        inflationRate: Number(calculatorInputs.inflationRate)
+      };
+
       // Calculate compound interest results
-      const compoundResults = api.calculateCompoundInterest(calculatorInputs);
+      const compoundResults = api.calculateCompoundInterest(numericInputs);
       setResults(compoundResults);
 
       // Generate chart data
-      const data = api.generateChartData(calculatorInputs);
+      const data = api.generateChartData(numericInputs);
       setChartData(data);
       
       // Calculate appropriate Y axis range based on the data
@@ -65,6 +77,8 @@ const Calculator = () => {
       setYAxisConfig({ min, max, stepSize });
       
       console.log('Calculation complete with results:', compoundResults);
+      console.log('Chart data generated:', data);
+      console.log('Y-axis config:', { min, max, stepSize });
     } catch (error) {
       console.error('Error calculating results:', error);
     } finally {
@@ -72,19 +86,30 @@ const Calculator = () => {
     }
   }, [calculatorInputs]);
 
+  // Force chart update when chart data changes
+  useEffect(() => {
+    if (chartRef.current) {
+      console.log('Updating chart with new data');
+      chartRef.current.update();
+    }
+  }, [chartData, yAxisConfig, calculatorInputs.time]);
+
   // Handle input changes
   const handleInputChange = (e) => {
     const { name, value, type, checked } = e.target;
+    const newValue = type === 'checkbox' ? checked : value;
+    console.log(`Input changed: ${name} = ${newValue}`);
+    
     setCalculatorInputs(prev => ({
       ...prev,
-      [name]: type === 'checkbox' ? checked : value
+      [name]: newValue
     }));
   };
 
   // Handle form submission
   const handleCalculate = (e) => {
     e.preventDefault();
-    console.log('Calculate button clicked');
+    console.log('Calculate button clicked - recalculating with current inputs');
   };
 
   // Save current scenario for comparison
@@ -161,9 +186,11 @@ const Calculator = () => {
             <div className="mt-8 bg-white p-4 rounded-lg shadow-md">
               <h3 className="text-xl font-semibold text-blue-800 mb-4">Investment Growth Over Time</h3>
               <Line 
+                ref={chartRef}
                 data={chartData}
                 options={{
                   responsive: true,
+                  maintainAspectRatio: true,
                   scales: {
                     x: {
                       title: {
@@ -175,9 +202,9 @@ const Calculator = () => {
                         }
                       },
                       min: 0,
-                      max: calculatorInputs.time,
+                      max: Number(calculatorInputs.time),
                       ticks: {
-                        stepSize: Math.max(1, Math.ceil(calculatorInputs.time / 10)),
+                        stepSize: Math.max(1, Math.ceil(Number(calculatorInputs.time) / 10)),
                         callback: (value) => Math.round(value)
                       }
                     },
@@ -208,7 +235,17 @@ const Calculator = () => {
                           return `${context.dataset.label}: ${formatCurrency(context.parsed.y, calculatorInputs.currency)}`;
                         }
                       }
+                    },
+                    legend: {
+                      position: 'bottom',
+                      labels: {
+                        boxWidth: 12,
+                        padding: 15
+                      }
                     }
+                  },
+                  animation: {
+                    duration: 300 // Faster animation for better responsiveness
                   }
                 }}
               />
@@ -239,7 +276,7 @@ const Calculator = () => {
                   <tr key={scenario.id} className="border-t border-gray-200">
                     <td className="py-3 px-4">{scenario.name}</td>
                     <td className="py-3 px-4">{formatCurrency(scenario.inputs.principal, scenario.inputs.currency)}</td>
-                    <td className="py-3 px-4">{formatCurrency(scenario.inputs.rate, scenario.inputs.currency, true)}</td>
+                    <td className="py-3 px-4">{formatPercentage(scenario.inputs.rate)}</td>
                     <td className="py-3 px-4">{scenario.inputs.time} years</td>
                     <td className="py-3 px-4">{formatCurrency(scenario.inputs.regularContribution, scenario.inputs.currency)}/month</td>
                     <td className="py-3 px-4 font-semibold">{formatCurrency(scenario.results.futureValue, scenario.inputs.currency)}</td>

@@ -145,5 +145,19 @@ describe('Calculator Utilities', () => {
       expect(chartData15.labels.length).toBe(16); // 0 through 15
       expect(chartData15.labels[15]).toBe(15);
     });
+    
+    it('handles invalid time periods gracefully', () => {
+      // Test with zero years (should default to 1)
+      const chartData0 = generateChartData(1000, 5, 0, 12, 100, false);
+      expect(chartData0.labels.length).toBe(2); // 0, 1
+      
+      // Test with negative years (should default to 1)
+      const chartDataNeg = generateChartData(1000, 5, -2, 12, 100, false);
+      expect(chartDataNeg.labels.length).toBe(2); // 0, 1
+      
+      // Test with non-numeric input (should default to 1)
+      const chartDataNaN = generateChartData(1000, 5, 'abc', 12, 100, false);
+      expect(chartDataNaN.labels.length).toBe(2); // 0, 1
+    });
   });
 });

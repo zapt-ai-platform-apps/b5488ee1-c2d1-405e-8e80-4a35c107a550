@@ -96,6 +96,12 @@ export function generateChartData(
   isContributionAtStart = false,
   inflationRate = 0
 ) {
+  // Ensure time is a number and has a valid value
+  time = Number(time);
+  if (isNaN(time) || time <= 0) {
+    time = 1; // Default to 1 year if invalid
+  }
+  
   const years = Array.from({ length: time + 1 }, (_, i) => i);
   const principalOnlyData = []; // Initial principal without contributions
   const principalPlusContributionsData = []; // Principal + all contributions to date
@@ -105,8 +111,10 @@ export function generateChartData(
   
   // Convert all inputs to numbers to ensure proper calculation
   principal = Number(principal);
+  rate = Number(rate);
   regularContribution = Number(regularContribution);
   compoundingFrequency = Number(compoundingFrequency);
+  inflationRate = Number(inflationRate);
   
   for (const year of years) {
     if (year === 0) {
@@ -287,6 +295,11 @@ export function calculateYAxisRange(chartData) {
     }
   });
   
+  // If maximum value is 0 (or very close to it), return a default range
+  if (maxValue < 1) {
+    return { min: 0, max: 100, stepSize: 20 };
+  }
+  
   // Add 10% padding to the max value
   const paddedMax = maxValue * 1.1;
   
@@ -305,6 +318,15 @@ export function calculateYAxisRange(chartData) {
   
   // Calculate a nice step size (aim for 5-7 steps)
   const stepSize = roundedMax / 5;
+  
+  console.log('Y-axis calculation for chart:', { 
+    maxValue, 
+    paddedMax, 
+    magnitude, 
+    normalized, 
+    roundedMax, 
+    stepSize 
+  });
   
   return { min: 0, max: roundedMax, stepSize };
 }
