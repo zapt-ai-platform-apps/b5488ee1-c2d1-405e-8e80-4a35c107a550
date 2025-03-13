@@ -16,7 +16,9 @@ import {
   generateChartData,
   compoundingFrequencies,
   formatCurrency,
-  formatPercentage
+  formatPercentage,
+  formatChartCurrency,
+  calculateYAxisRange
 } from '../utils';
 import { DEFAULT_CURRENCY } from '../constants/currencies';
 import CalculatorForm from './CalculatorForm';
@@ -47,6 +49,7 @@ const Calculator = () => {
 
   const [results, setResults] = useState(null);
   const [chartData, setChartData] = useState(null);
+  const [yAxisConfig, setYAxisConfig] = useState({ min: 0, max: 50000, stepSize: 10000 });
   const [scenarios, setScenarios] = useState([]);
   const [isCalculating, setIsCalculating] = useState(false);
 
@@ -100,6 +103,11 @@ const Calculator = () => {
     );
 
     setChartData(data);
+    
+    // Calculate appropriate Y axis range based on the data
+    const { min, max, stepSize } = calculateYAxisRange(data);
+    setYAxisConfig({ min, max, stepSize });
+    
     setIsCalculating(false);
     console.log('Calculation complete with results:', compoundResults);
   }, [calculatorInputs]);
@@ -138,38 +146,6 @@ const Calculator = () => {
   const removeScenario = (id) => {
     setScenarios(scenarios.filter(scenario => scenario.id !== id));
     console.log('Removed scenario with id:', id);
-  };
-
-  // Calculate a reasonable max value for the Y-axis based on the highest value in the dataset
-  const calculateYAxisMax = (chartData) => {
-    if (!chartData || !chartData.datasets || chartData.datasets.length === 0) {
-      return 10000; // Default fallback
-    }
-    
-    // Find the highest value across all datasets
-    let maxValue = 0;
-    chartData.datasets.forEach(dataset => {
-      const datasetMax = Math.max(...dataset.data.filter(val => !isNaN(val) && val !== null));
-      if (datasetMax > maxValue) {
-        maxValue = datasetMax;
-      }
-    });
-
-    // Add 10% padding to the max value to improve visual appearance
-    const paddedMax = maxValue * 1.1;
-    
-    // Round to a nice number for the scale
-    const magnitude = Math.pow(10, Math.floor(Math.log10(paddedMax)));
-    const normalized = paddedMax / magnitude;
-    
-    // Round to 1, 2, 5 or 10 * magnitude
-    let roundedMax;
-    if (normalized <= 1.2) roundedMax = 1 * magnitude;
-    else if (normalized <= 2.5) roundedMax = 2 * magnitude;
-    else if (normalized <= 5) roundedMax = 5 * magnitude;
-    else roundedMax = 10 * magnitude;
-    
-    return roundedMax;
   };
 
   return (
@@ -235,7 +211,14 @@ const Calculator = () => {
                     },
                     y: {
                       beginAtZero: true,
-                      max: calculateYAxisMax(chartData),
+                      min: yAxisConfig.min,
+                      max: yAxisConfig.max,
+                      ticks: {
+                        stepSize: yAxisConfig.stepSize,
+                        callback: (value) => {
+                          return formatChartCurrency(value, calculatorInputs.currency);
+                        }
+                      },
                       title: {
                         display: true,
                         text: `Value (${calculatorInputs.currency})`,
@@ -243,9 +226,6 @@ const Calculator = () => {
                           size: 14,
                           weight: 'bold'
                         }
-                      },
-                      ticks: {
-                        callback: (value) => formatCurrency(value, calculatorInputs.currency)
                       }
                     }
                   },

@@ -235,3 +235,76 @@ export function formatPercentage(value) {
     maximumFractionDigits: 2
   }).format(value / 100);
 }
+
+/**
+ * Format currency values for chart axis labels with consistent unit display
+ * @param {number} value - The value to format
+ * @param {string} currencyCode - The currency code
+ * @returns {string} Formatted value string with appropriate unit (k, M, B)
+ */
+export function formatChartCurrency(value, currencyCode = 'USD') {
+  // Symbol map for currencies
+  const currencySymbol = {
+    'USD': '$',
+    'GBP': '£',
+    'EUR': '€'
+  }[currencyCode] || '$';
+  
+  // Get absolute value for formatting
+  const absValue = Math.abs(value);
+  
+  // Format based on the magnitude, but maintain consistent presentation
+  if (absValue >= 1000000) {
+    // Format as millions
+    return `${currencySymbol}${(value / 1000000).toFixed(1)}M`;
+  } else if (absValue >= 1000) {
+    // Format as thousands
+    return `${currencySymbol}${(value / 1000).toFixed(1)}k`;
+  } else {
+    // Format regular values
+    return `${currencySymbol}${value.toFixed(0)}`;
+  }
+}
+
+/**
+ * Calculate a reasonable Y axis range based on the data
+ * Ensures consistent scaling when time periods change
+ * 
+ * @param {Object} chartData - The chart data object
+ * @returns {Object} Contains min, max, and stepSize for Y axis
+ */
+export function calculateYAxisRange(chartData) {
+  if (!chartData || !chartData.datasets || chartData.datasets.length === 0) {
+    return { min: 0, max: 10000, stepSize: 2000 };
+  }
+  
+  // Find the highest value across all datasets
+  let maxValue = 0;
+  chartData.datasets.forEach(dataset => {
+    const datasetMax = Math.max(...dataset.data.filter(val => !isNaN(val) && val !== null));
+    if (datasetMax > maxValue) {
+      maxValue = datasetMax;
+    }
+  });
+  
+  // Add 10% padding to the max value
+  const paddedMax = maxValue * 1.1;
+  
+  // Calculate the magnitude of the max value (10^n)
+  const magnitude = Math.pow(10, Math.floor(Math.log10(paddedMax)));
+  
+  // Calculate the normalized value (value / magnitude)
+  const normalized = paddedMax / magnitude;
+  
+  // Round to a nice number based on the normalized value
+  let roundedMax;
+  if (normalized <= 1.2) roundedMax = 1 * magnitude;
+  else if (normalized <= 2.5) roundedMax = 2.5 * magnitude;
+  else if (normalized <= 5) roundedMax = 5 * magnitude;
+  else roundedMax = 10 * magnitude;
+  
+  // Calculate a nice step size (aim for 5-7 steps)
+  const stepSize = roundedMax / 5;
+  
+  return { min: 0, max: roundedMax, stepSize };
+}
