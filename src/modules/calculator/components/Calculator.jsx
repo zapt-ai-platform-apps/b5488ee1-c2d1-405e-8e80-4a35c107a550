@@ -207,6 +207,12 @@ const Calculator = () => {
                           size: 14,
                           weight: 'bold'
                         }
+                      },
+                      min: 0,
+                      max: calculatorInputs.time,
+                      ticks: {
+                        stepSize: Math.max(1, Math.ceil(calculatorInputs.time / 10)),
+                        callback: (value) => Math.round(value)
                       }
                     },
                     y: {

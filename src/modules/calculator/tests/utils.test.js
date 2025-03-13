@@ -130,5 +130,22 @@ describe('Calculator Utilities', () => {
       // Should be principal + (24 months * monthly contribution)
       expect(chartData.datasets[0].data[2]).toBe(principal + (regularContribution * compoundingFrequency * 2));
     });
+    
+    it('respects the time period specified by the user', () => {
+      // Test with 5 years
+      const chartData5 = generateChartData(1000, 5, 5, 12, 100, false);
+      expect(chartData5.labels.length).toBe(6); // 0, 1, 2, 3, 4, 5
+      expect(chartData5.labels[5]).toBe(5);
+      
+      // Test with 8 years
+      const chartData8 = generateChartData(1000, 5, 8, 12, 100, false);
+      expect(chartData8.labels.length).toBe(9); // 0, 1, 2, 3, 4, 5, 6, 7, 8
+      expect(chartData8.labels[8]).toBe(8);
+      
+      // Test with 15 years
+      const chartData15 = generateChartData(1000, 5, 15, 12, 100, false);
+      expect(chartData15.labels.length).toBe(16); // 0 through 15
+      expect(chartData15.labels[15]).toBe(15);
+    });
   });
 });
