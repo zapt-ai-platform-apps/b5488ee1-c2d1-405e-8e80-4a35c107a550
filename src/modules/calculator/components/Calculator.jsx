@@ -140,6 +140,38 @@ const Calculator = () => {
     console.log('Removed scenario with id:', id);
   };
 
+  // Calculate a reasonable max value for the Y-axis based on the highest value in the dataset
+  const calculateYAxisMax = (chartData) => {
+    if (!chartData || !chartData.datasets || chartData.datasets.length === 0) {
+      return 10000; // Default fallback
+    }
+    
+    // Find the highest value across all datasets
+    let maxValue = 0;
+    chartData.datasets.forEach(dataset => {
+      const datasetMax = Math.max(...dataset.data.filter(val => !isNaN(val) && val !== null));
+      if (datasetMax > maxValue) {
+        maxValue = datasetMax;
+      }
+    });
+
+    // Add 10% padding to the max value to improve visual appearance
+    const paddedMax = maxValue * 1.1;
+    
+    // Round to a nice number for the scale
+    const magnitude = Math.pow(10, Math.floor(Math.log10(paddedMax)));
+    const normalized = paddedMax / magnitude;
+    
+    // Round to 1, 2, 5 or 10 * magnitude
+    let roundedMax;
+    if (normalized <= 1.2) roundedMax = 1 * magnitude;
+    else if (normalized <= 2.5) roundedMax = 2 * magnitude;
+    else if (normalized <= 5) roundedMax = 5 * magnitude;
+    else roundedMax = 10 * magnitude;
+    
+    return roundedMax;
+  };
+
   return (
     <div className="max-w-6xl mx-auto px-4 py-8">
       <h2 className="text-2xl font-bold text-blue-800 mb-6">Investment Growth Calculator</h2>
@@ -203,6 +235,7 @@ const Calculator = () => {
                     },
                     y: {
                       beginAtZero: true,
+                      max: calculateYAxisMax(chartData),
                       title: {
                         display: true,
                         text: `Value (${calculatorInputs.currency})`,

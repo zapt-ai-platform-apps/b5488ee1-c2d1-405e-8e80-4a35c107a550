@@ -62,13 +62,14 @@ const CalculatorForm = ({
             value={inputs.rate}
             onChange={handleInputChange}
             min="0"
+            max="100"
             step="0.1"
-            className="w-full px-3 py-2 border border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring-blue-500 focus:border-blue-500 box-border"
+            className="w-full pr-8 pl-3 py-2 border border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring-blue-500 focus:border-blue-500 box-border"
             required
           />
-          <span className="absolute inset-y-0 right-0 flex items-center pr-8 text-gray-500">
-            %
-          </span>
+          <div className="absolute inset-y-0 right-0 flex items-center pr-3">
+            <span className="text-gray-500">%</span>
+          </div>
         </div>
       </div>
 
@@ -157,12 +158,13 @@ const CalculatorForm = ({
             value={inputs.inflationRate}
             onChange={handleInputChange}
             min="0"
+            max="100"
             step="0.1"
-            className="w-full px-3 py-2 border border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring-blue-500 focus:border-blue-500 box-border"
+            className="w-full pr-8 pl-3 py-2 border border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring-blue-500 focus:border-blue-500 box-border"
           />
-          <span className="absolute inset-y-0 right-0 flex items-center pr-8 text-gray-500">
-            %
-          </span>
+          <div className="absolute inset-y-0 right-0 flex items-center pr-3">
+            <span className="text-gray-500">%</span>
+          </div>
         </div>
       </div>
 
